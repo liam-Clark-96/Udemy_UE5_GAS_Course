@@ -13,5 +13,12 @@ UCLASS()
 class UDEMY_COURSE_UE5_GAS_API AAuraCharacter : public AAuraCharcaterBase
 {
 	GENERATED_BODY()
+
+protected:
+
+
+public:
+	AAuraCharacter();
+
 	
 };
