@@ -6,10 +6,12 @@
 #include "GameFramework/PlayerController.h"
 #include "AuraPlayerController.generated.h"
 
+
 // Forward declarations of classes and structs used in the AuraPlayerController 
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
+class IEnemyInterface;
 
 /**
  * 
@@ -26,6 +28,7 @@ protected:
 
 public:
 	AAuraPlayerController();
+	virtual void PlayerTick(float DeltaTime) override;;
 	
 
 private:
@@ -39,5 +42,11 @@ private:
 
 	// Function to handle player movement input
 	void Move(const FInputActionValue& InputActionValue);
+
+	// Function to perform a trace under the cursor to detect interactable actors
+	void CursorTrace();
 	
+	// Variables to keep track of the last and current actors under the cursor
+	TScriptInterface<IEnemyInterface> LastActor;
+	TScriptInterface<IEnemyInterface> ThisActor;
 };

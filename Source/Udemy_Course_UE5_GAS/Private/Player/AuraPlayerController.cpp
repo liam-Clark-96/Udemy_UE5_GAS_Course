@@ -4,6 +4,7 @@
 #include "Player/AuraPlayerController.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Interaction/EnemyInterface.h"
 #include "GameFramework/PlayerController.h"
 
 void AAuraPlayerController::BeginPlay()
@@ -47,6 +48,78 @@ AAuraPlayerController::AAuraPlayerController()
 	bReplicates = true;
 }
 
+void AAuraPlayerController::PlayerTick(float DeltaTime)
+{
+	// Call the base class PlayerTick function
+	Super::PlayerTick(DeltaTime);
+	// Perform a cursor trace to detect interactable actors under the cursor
+		CursorTrace();
+}
+void AAuraPlayerController::CursorTrace()
+{
+	// Perform a hit result trace under the cursor to detect interactable actors
+	FHitResult CursorHit;
+	// Storing the last actor before updating
+	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+	// If no blocking hit is detected, return early
+	if (!CursorHit.bBlockingHit) return;
+	// Updating the last and current actors based on the hit result
+	LastActor = ThisActor;
+	// Getting the actor from the hit result and casting it to the IEnemyInterface
+	ThisActor = CursorHit.GetActor();
+
+	/**
+	* Line Trace from cursor, there are several scenarios
+	* A. Last Actor is null && This actor is null
+	*		 - Do nothing
+	* B. LastActor is null && This actor is valid
+	*		- Highlight This actor
+	* C. LastActor is valid && This actor is null
+	*		- UnHighlight Last actor
+	* D. LastActor is valid, But LastActor != ThisActor
+	* 		- UnHighlight Last actor, Highlight This actor
+	* E. Both are valid, and both are the same
+	*		- Do nothing
+	*/
+	
+	if (LastActor == nullptr)
+	{
+		if (ThisActor != nullptr)
+		{
+			// Scenario B: LastActor is null && This actor is valid
+			ThisActor->HightlightActor();
+		}
+		else
+		{
+			// Scenario A: Last Actor is null && This actor is null
+			// Do nothing
+		}
+	}
+	else // LastActor is valid
+	{
+		if (ThisActor == nullptr)
+		{
+			// Scenario C: LastActor is valid && This actor is null
+			LastActor->UnHighlightActor();
+		}
+		else // both actors are valid
+		{
+
+			if (LastActor != ThisActor)
+			{
+				// Scenario D: LastActor is valid, But LastActor != ThisActor
+				LastActor->UnHighlightActor();
+				ThisActor->HightlightActor();
+			}
+			else
+			{
+				// Scenario E: Both are valid, and both are the same
+				// Do nothing
+			}
+		}
+	}
+}
+
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 {
 	// Getting the input axis vector from the input action value
@@ -66,3 +139,5 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 	}
 
 }
+
+

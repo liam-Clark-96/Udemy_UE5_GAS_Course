@@ -23,6 +23,7 @@ class UDEMY_COURSE_UE5_GAS_API IEnemyInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
+	// Highlight the actor (e.g., change material, outline, etc.)
 	virtual void HightlightActor() = 0;
 	virtual void UnHighlightActor() = 0;
 };
