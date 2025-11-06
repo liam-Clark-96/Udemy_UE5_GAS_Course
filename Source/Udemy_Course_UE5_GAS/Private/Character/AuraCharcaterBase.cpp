@@ -15,6 +15,11 @@ AAuraCharcaterBase::AAuraCharcaterBase()
 
 }
 
+UAbilitySystemComponent* AAuraCharcaterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
 
 void AAuraCharcaterBase::BeginPlay()
 {
