@@ -60,4 +60,5 @@ public:
 
 	virtual void BroadcastInitialValues();
 	
+	virtual void BindCallbacksToDependencies();
 };
