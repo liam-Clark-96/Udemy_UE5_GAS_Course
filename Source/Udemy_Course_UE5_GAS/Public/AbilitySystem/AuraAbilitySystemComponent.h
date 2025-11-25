@@ -14,4 +14,13 @@ class UDEMY_COURSE_UE5_GAS_API UAuraAbilitySystemComponent : public UAbilitySyst
 {
 	GENERATED_BODY()
 	
+
+protected:
+
+
+	void EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, 
+		const FGameplayEffectSpec& Effectspec, FActiveGameplayEffectHandle ActiveEffectHandle);
+
+public:
+	void AbilityActorInfoSet();
 };

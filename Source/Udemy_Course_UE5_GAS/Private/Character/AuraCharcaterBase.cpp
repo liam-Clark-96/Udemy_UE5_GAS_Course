@@ -24,7 +24,11 @@ UAbilitySystemComponent* AAuraCharcaterBase::GetAbilitySystemComponent() const
 void AAuraCharcaterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+}
+
+void AAuraCharcaterBase::InitAbilityActorInfo()
+{
+
 }
 
 
